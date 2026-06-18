@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.oscar.R
-import com.oscar.data.model.Director
 
 class ChooseMovie : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
