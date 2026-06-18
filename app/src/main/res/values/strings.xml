@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Oscar</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Usuário</string>
+    <string name="prompt_password">Senha</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Fazer Login</string>
+    <string name="welcome">"Bem vindo!"</string>
+    <string name="invalid_username">Usuário deve conter apenas letras</string>
+    <string name="invalid_password">Senha não pode ser vazia</string>
+    <string name="login_failed">"Erro no Login"</string>
+    <string name="sub_title">Confirme seu voto. Faça historia.</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Votação</string>
+    <string name="title_notifications">Resultados</string>
+    <string name="icone_de_seta_para_voltar">Ícone de seta para voltar</string>
+    <string name="best_picture">Best Picture</string>
+    <string name="confirm_selection">CONFIRM SELECTION</string>
+    <string name="final_review">Final Review</string>
+    <string name="award_categories">Award Categories</string>
+</resources>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="#FFFFFF">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ivBackSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/outline_arrow_back_ios_new_24"
+            android:scaleType="center"
+            android:contentDescription="@string/icone_de_seta_para_voltar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:backgroundTint="@color/primary_color"
+            app:tint="@color/white"
+            app:maxImageSize="30dp"
+            app:fabSize="normal" />
+
+    <ImageView
+            android:id="@+id/ivLogoSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:contentDescription="Logo do Oscar App"
+            app:layout_constraintBottom_toBottomOf="@+id/ivBackSummary"
+            app:layout_constraintEnd_toStartOf="@+id/ivProfileSummary"
+            app:layout_constraintStart_toEndOf="@+id/ivBackSummary"
+            app:layout_constraintTop_toTopOf="@+id/ivBackSummary" />
+
+    <ImageView
+            android:id="@+id/ivProfileSummary"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/outline_account_circle_24"
+            app:tint="@color/grey"
+            android:contentDescription="Ícone de perfil do usuário"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/tvFinalReview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/final_review"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivBackSummary" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSummaryList"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/cvSubmitBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFinalReview" />
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/cvSubmitBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+            <TextView
+                    android:id="@+id/tvBallotSummary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ballot summary: 21 / 24 filled"
+                    app:layout_constraintBottom_toTopOf="@+id/btnSubmitAll"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                    android:id="@+id/btnSubmitAll"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#000000"
+                    android:text="SUBMIT ALL VOTES"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBallotSummary" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
