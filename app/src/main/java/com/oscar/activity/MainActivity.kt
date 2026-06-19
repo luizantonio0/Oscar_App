@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.oscar.R
+import com.oscar.config.OnGenericAdapterClickListener
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +22,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun test(view: View){
-        startActivity(Intent(this, HomeActivity::class.java))
+        startActivity(Intent(this, ChooseMovie::class.java))
     }
 }

@@ -1,15 +1,40 @@
 ﻿package com.oscar.config
 
+import android.app.Activity
 import android.content.Context
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.ImageViewCompat
 import com.oscar.R
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
+import com.oscar.config.OnGenericAdapterClickListener
+import com.oscar.data.model.Movie
+import com.oscar.databinding.ActivityHomeBinding
+
 
 class ActivityUtil {
     companion object {
-        fun initialConfig(){
+        fun <T: ViewBinding> initialConfig(activity: Activity, bindingInflater: (LayoutInflater) -> T): T {
 
+            val binding = bindingInflater(activity.layoutInflater)
+            activity.setContentView(binding.root)
+
+            val mainView = binding.root.findViewById<View>(R.id.main)
+
+            ViewCompat.setOnApplyWindowInsetsListener(mainView) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+                insets
+            }
+
+            return binding
         }
 
         fun darkmode (context: Context, imageView: ImageView){

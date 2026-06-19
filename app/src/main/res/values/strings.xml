@@ -16,8 +16,8 @@
     <string name="title_dashboard">Votação</string>
     <string name="title_notifications">Resultados</string>
     <string name="icone_de_seta_para_voltar">Ícone de seta para voltar</string>
-    <string name="best_picture">Best Picture</string>
-    <string name="confirm_selection">CONFIRM SELECTION</string>
+    <string name="best_picture">Melhor Filme</string>
+    <string name="confirm_selection">CONFIRMAR</string>
     <string name="final_review">Final Review</string>
     <string name="award_categories">Award Categories</string>
 </resources>

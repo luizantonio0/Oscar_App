@@ -53,7 +53,7 @@ open class GenericAdapter <T> (  private val list: List<T>,
     inner class GenericViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.tvMovieName)
         val genre = itemView.findViewById<TextView>(R.id.tvMovieGenre)
-        val image = itemView.findViewById<ImageView>(R.id.imageView)
+        val image = itemView.findViewById<ImageView>(R.id.ivMoviePoster)
 
         fun bind(t: T) {
             itemView.setOnClickListener {

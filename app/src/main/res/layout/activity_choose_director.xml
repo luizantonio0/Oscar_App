@@ -141,13 +141,10 @@
 
     <RadioGroup
             android:id="@+id/cdRadioGroup"
-            android:layout_width="409dp"
+            android:layout_width="match_parent"
             android:layout_height="465dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/cvConfirmBar"
             app:layout_constraintTop_toBottomOf="@+id/tvCategoryName"
-            tools:layout_editor_absoluteY="253dp"
-            tools:layout_editor_absoluteX="144dp"/>
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
