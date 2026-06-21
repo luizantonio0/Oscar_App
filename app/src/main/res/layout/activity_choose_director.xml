@@ -50,7 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Best Director"
+            android:text="@string/best_director"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +92,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="YOUR SELECTION"
+                    android:text="@string/your_selection"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toTopOf="@+id/cdSelectedName"
                     app:layout_constraintEnd_toStartOf="@+id/cdCheck"
@@ -138,7 +138,13 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+    <ProgressBar app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 android:layout_width="67dp" android:layout_height="62dp"
+                 android:id="@+id/bdProgressbar">
 
+    </ProgressBar>
     <RadioGroup
             android:id="@+id/cdRadioGroup"
             android:layout_width="match_parent"

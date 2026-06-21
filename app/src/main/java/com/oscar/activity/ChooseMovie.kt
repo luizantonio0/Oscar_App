@@ -59,13 +59,14 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
 
         recyclerView = binding.picturesRecyclerView
         user = DatabaseHelper().findUser()
+        showLoading()
         loadData()
+
     }
 
     fun loadData(){
         lifecycleScope.launch {
             try {
-                showLoading()
                 val list = withContext(Dispatchers.IO) {
                     api.getFilmes(user?.accessToken?: "")
                 }
@@ -82,11 +83,12 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
         }
     }
 
-    private fun hideLoading() {
+    fun hideLoading() {
+        binding.bmProgressbar.visibility = View.GONE
     }
 
-    private fun showLoading() {
-
+    fun showLoading() {
+        binding.bmProgressbar.visibility = View.VISIBLE
     }
 
     fun comeback(view: View){

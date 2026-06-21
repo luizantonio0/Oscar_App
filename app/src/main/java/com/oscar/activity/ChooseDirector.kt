@@ -4,39 +4,78 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.oscar.R
+import androidx.lifecycle.lifecycleScope
 import com.oscar.config.ActivityUtil
 import com.oscar.data.model.Director
+import com.oscar.data.model.Movie
+import com.oscar.data.model.User
 import com.oscar.databinding.ActivityChooseDirectorBinding
+import com.oscar.repository.DatabaseHelper
+import com.oscar.service.ApiRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ChooseDirector : AppCompatActivity() {
     private lateinit var binding: ActivityChooseDirectorBinding
+    private val api = ApiRequest()
+    private var choosedDirector: Director? = null
+    private var user: User? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityUtil.initialConfig(this, ActivityChooseDirectorBinding::inflate)
 
-        val tempList = listOf( Director(0L, "Luiz"), Director(1L, "Antonio"))
+        user = DatabaseHelper().findUser()
 
-        tempList.forEachIndexed { _, d ->
-            val radioB = RadioButton(this).apply {
-                text = d.nome
-                id = d.id.toInt()
-            }
-
-            binding.cdRadioGroup.addView(radioB)
-        }
+        showLoading()
+        loadData()
 
         binding.cdRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             Toast.makeText(this, "Selected: ${checkedId}", Toast.LENGTH_SHORT).show()
-            binding.cdSelectedName.text = group.findViewById<RadioButton>(checkedId).text
+            val name = group.findViewById<RadioButton>(checkedId).text
+            binding.cdSelectedName.text = name
+            val newDirector = Director(checkedId.toLong(), name.toString())
+            choosedDirector = newDirector
         }
 
     }
+
+    fun loadData() {
+        lifecycleScope.launch {
+            try {
+                val list = withContext(Dispatchers.IO) {
+                    api.getDiretores(user?.accessToken?: "")
+                }
+                list.forEachIndexed { _, d ->
+                    val radioB = RadioButton(this@ChooseDirector).apply {
+                        text = d.nome
+                        id = d.id.toInt()
+                    }
+                    binding.cdRadioGroup.addView(radioB)
+                }
+            }
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
+            finally {
+                hideLoading()
+            }
+
+        }
+    }
+
+    fun hideLoading() {
+        binding.bdProgressbar.visibility = View.GONE
+    }
+
+    fun showLoading() {
+        binding.bdProgressbar.visibility = View.VISIBLE
+    }
+
     fun sendVote(view: View){
 
     }
