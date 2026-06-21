@@ -1,5 +1,6 @@
 ﻿package com.oscar.repository
 
+import android.util.Log
 import com.oscar.data.model.Director
 import com.oscar.data.model.Movie
 import com.oscar.data.model.User
@@ -16,9 +17,9 @@ object DatabaseManager {
                 Director::class)
         )
             .name("meu_app.realm")
-            .schemaVersion(3) // Controle de versões do banco
+            .schemaVersion(6) // Controle de versões do banco
             .build()
 
-        Realm.open(config)
+       Realm.open(config)
     }
 }

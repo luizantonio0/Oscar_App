@@ -57,7 +57,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cdBackVoting" />
+            app:layout_constraintTop_toBottomOf="@+id/cdBackVoting" android:gravity="center"/>
 
 
 
@@ -79,10 +79,10 @@
                     android:id="@+id/cdSelectionThumbnail"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    app:srcCompat="@drawable/face_24dp"
+                    app:srcCompat="@drawable/chair_24dp"
                     android:scaleType="center"
                     app:tint="@color/primary_color"
-                    app:maxImageSize="36dp"
+                    app:maxImageSize="40dp"
                     app:fabSize="normal"
                     android:contentDescription="Miniatura/Pôster do filme ou diretor selecionado"
                     app:layout_constraintBottom_toTopOf="@+id/btnConfirm"

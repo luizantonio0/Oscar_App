@@ -27,10 +27,22 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
     private val api = ApiRequest(this)
     private var choosedMovie: Movie? = null
     private var user: User? = null
+    private var votacao: Votacao? = null
     private var databaseHelper = DatabaseHelper()
 
     override fun onAdapterClick(t: Movie) {
         lifecycleScope.launch(Dispatchers.Main) {
+
+            if (votacao?.isFinished == true) {
+                binding.btnConfirm.isEnabled = false
+                Toast.makeText(
+                    this@ChooseMovie,
+                    "Votação já enviada. Não é possível alterar o voto.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@launch
+            }
+
             binding.tvSelectedName.text = t.nome
 
             binding.ivSelectionThumbnail
@@ -66,12 +78,19 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
         loadVotacao()
     }
 
+    override fun onResume(){
+        super.onResume()
+        showLoading()
+        loadData()
+        loadVotacao()
+    }
+
     fun loadVotacao() {
         lifecycleScope.launch (Dispatchers.Main){
             withContext(Dispatchers.IO){
-                val votacao = databaseHelper.findVotacao()
+                votacao = databaseHelper.findVotacao()
                 if (votacao?.filme != null) {
-                    choosedMovie = votacao.filme
+                    choosedMovie = votacao?.filme
                     onAdapterClick(choosedMovie!!)
                 }
             }
@@ -120,7 +139,9 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
                         1L,
                         choosedMovie,
                         null
-                    )
+                    ).apply {
+                        isFinished = votacao?.isFinished == true
+                    }
                 )
             }
             this@ChooseMovie.finish()

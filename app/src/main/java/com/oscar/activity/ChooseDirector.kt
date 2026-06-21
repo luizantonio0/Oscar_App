@@ -22,6 +22,7 @@ class ChooseDirector : AppCompatActivity() {
     private val api = ApiRequest(this)
     private var choosedDirector: Director? = null
     private var user: User? = null
+    private var votacao: Votacao? = null
     private var databaseHelper = DatabaseHelper()
 
 
@@ -38,6 +39,14 @@ class ChooseDirector : AppCompatActivity() {
         loadVotacao()
 
         binding.cdRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            if (votacao?.isFinished == true) {
+                Toast.makeText(
+                    this@ChooseDirector,
+                    "Votação já enviada. Não é possível alterar o voto.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnCheckedChangeListener
+            }
             val name = group.findViewById<RadioButton>(checkedId).text
             binding.cdSelectedName.text = name
             val newDirector = Director(checkedId.toLong(), name.toString())
@@ -49,13 +58,20 @@ class ChooseDirector : AppCompatActivity() {
         }
     }
 
+    override fun onResume(){
+        super.onResume()
+        showLoading()
+        loadData()
+        loadVotacao()
+    }
+
     fun loadVotacao() {
         lifecycleScope.launch (Dispatchers.Main){
             withContext(Dispatchers.IO){
-                val votacao = databaseHelper.findVotacao()
+                votacao = databaseHelper.findVotacao()
                 if (votacao?.diretor != null) {
-                    binding.cdSelectedName.text = votacao.diretor?.nome
-                    choosedDirector = votacao.diretor
+                    binding.cdSelectedName.text = votacao?.diretor?.nome
+                    choosedDirector = votacao?.diretor
                 }
             }
         }
@@ -63,6 +79,7 @@ class ChooseDirector : AppCompatActivity() {
 
     fun loadData() {
         lifecycleScope.launch {
+            showLoading()
             try {
                 val list = withContext(Dispatchers.IO) {
                     api.getDiretores(user?.accessToken?: "")
@@ -105,7 +122,9 @@ class ChooseDirector : AppCompatActivity() {
                         1L,
                         null,
                         choosedDirector
-                    )
+                    ).apply {
+                        isFinished = votacao?.isFinished == true
+                    }
                 )
             }
             this@ChooseDirector.finish()

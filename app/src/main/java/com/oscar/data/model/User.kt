@@ -10,4 +10,5 @@ class User: RealmObject {
     var username: String = ""
     var accessToken: String = ""
     var tokenVotacao: Int = 0
+    var isFinished: Boolean = false
 }

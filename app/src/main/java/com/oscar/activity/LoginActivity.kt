@@ -2,6 +2,7 @@
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -30,9 +31,12 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        user = DatabaseHelper().findUser()
-        binding.username.setText(user?.username)
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                user = DatabaseHelper().findUser()
+            }
+            binding.username.setText(user?.username)
+        }
 
         binding.username.doAfterTextChanged { text ->
             if (usernameValid(text.toString())){
@@ -75,20 +79,33 @@ class LoginActivity : AppCompatActivity() {
                 binding.username.text.toString(),
                 binding.password.text.toString()
             )
+            try {
+                val loginResponse = withContext(Dispatchers.IO) {
+                    api.login(loginRequest)
+                }
 
-            withContext(Dispatchers.IO) {
-                val loginResponse = api.login(loginRequest)
-                println("\n\n\n\n" + loginResponse + "\n\n\n\n")
 
                 val newUser = User().apply {
                     this.username = binding.username.text.toString()
                     this.tokenVotacao = loginResponse.tokenVotacao
                     this.accessToken = loginResponse.token
                 }
-                DatabaseHelper().saveUser(newUser, newUser.accessToken, newUser.tokenVotacao)
+
+                withContext(Dispatchers.IO) {
+                    DatabaseHelper().saveUser(
+                        newUser,
+                        newUser.accessToken,
+                        newUser.tokenVotacao
+                    )
+                }
+
+                finish()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                finish()
+                return@launch
             }
         }
-        finish()
     }
 
 }

@@ -2,14 +2,18 @@
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.oscar.R
 import com.oscar.data.model.User
+import com.oscar.data.model.Votacao
 import com.oscar.databinding.ActivityHomeBinding
 import com.oscar.repository.DatabaseHelper
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
 
 class HomeActivity : AppCompatActivity() {
 
@@ -37,5 +41,6 @@ class HomeActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
 
         }
+
     }
 }

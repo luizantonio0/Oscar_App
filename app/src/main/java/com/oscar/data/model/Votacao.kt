@@ -8,11 +8,13 @@ class Votacao (): RealmObject {
     var id: Long = 0L
     var filme: Movie? = null
     var diretor: Director? = null
+    var isFinished: Boolean = false
 
-    constructor( id: Long, filme: Movie?, diretor: Director?): this(){
+    constructor( id: Long, filme: Movie?, diretor: Director?, isFinished: Boolean = false): this(){
         this.id = id
         this.filme = filme
         this.diretor = diretor
+        this.isFinished = isFinished
     }
 
 }

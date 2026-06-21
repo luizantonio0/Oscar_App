@@ -27,7 +27,7 @@ class ConfirmationVotingFragment : Fragment() {
     private var databaseHelper = DatabaseHelper()
     private val binding get() = _binding!!
     private var votacao: Votacao? = null
-    private var api = ApiRequest(requireActivity())
+    private lateinit var api: ApiRequest
     private var user: User? = null
 
     override fun onCreateView(
@@ -37,12 +37,10 @@ class ConfirmationVotingFragment : Fragment() {
     ): View {
         _binding = FragmentConfirmationBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        api = ApiRequest(requireActivity())
 
-        user = databaseHelper.findUser()
-        if (user == null) return root
-
+        loadUser()
         loadData()
-        binding.btnSubmitAll.setOnClickListener { submit() }
 
         binding.cardViewMovie.setOnClickListener {
             startActivity(Intent(activity, ChooseMovie::class.java))
@@ -54,6 +52,33 @@ class ConfirmationVotingFragment : Fragment() {
 
         return root
     }
+    override fun onResume() {
+        super.onResume()
+        loadUser()
+        loadData()
+    }
+
+    fun loadUser(){
+        lifecycleScope.launch {
+            user = withContext(Dispatchers.IO) {
+                databaseHelper.findUser()
+            }
+
+            if (user == null) {
+                Toast.makeText(activity, "Usuário não encontrado. Faça login novamente.", Toast.LENGTH_SHORT).show()
+                return@launch
+            }
+
+            if (user?.isFinished!!){
+                binding.btnSubmitAll.setOnClickListener  {  }
+                binding.btnSubmitAll.isEnabled = false
+
+            } else {
+                binding.btnSubmitAll.setOnClickListener  { submit() }
+                binding.btnSubmitAll.isEnabled = true
+            }
+        }
+    }
 
     fun loadData(){
         lifecycleScope.launch (Dispatchers.Main){
@@ -64,10 +89,12 @@ class ConfirmationVotingFragment : Fragment() {
 
             if (votacao?.filme != null) {
                 binding.checkMovie.setImageResource(R.drawable.check_circle_24dp_fill)
+                binding.tvMovieName.text = votacao?.filme?.nome
             }
 
             if (votacao?.diretor != null) {
                 binding.checkDirector.setImageResource(R.drawable.check_circle_24dp_fill)
+                binding.tvDirectorName.text = votacao?.diretor?.nome
             }
         }
     }
@@ -85,6 +112,7 @@ class ConfirmationVotingFragment : Fragment() {
 
         if (msgError.isNotBlank()) {
             Toast.makeText(activity, "Finalize a votação para: $msgError", Toast.LENGTH_SHORT).show()
+            return
         }
 
         lifecycleScope.launch (Dispatchers.Main){
@@ -92,12 +120,19 @@ class ConfirmationVotingFragment : Fragment() {
             try {
                 withContext(Dispatchers.IO){
                     msg = api.confirmarVotos(votacao!!, user?.tokenVotacao?: -1, user?.accessToken?: "")
+                    if (msg.sucesso) {
+                        votacao!!.isFinished = true
+                        databaseHelper.updateVotacao(votacao!!)
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
 
             if (msg.sucesso){
+                binding.btnSubmitAll.isEnabled = false
+                binding.btnSubmitAll.setOnClickListener { }
+
                 Toast.makeText(activity, "Votos enviados com sucesso!", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(activity, msg.mensagem, Toast.LENGTH_SHORT).show()
