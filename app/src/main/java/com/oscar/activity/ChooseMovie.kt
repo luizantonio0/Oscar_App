@@ -67,6 +67,18 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
 
     }
 
+    fun loadVotacao() {
+        lifecycleScope.launch (Dispatchers.Main){
+            withContext(Dispatchers.IO){
+                val votacao = databaseHelper.findVotacao()
+                if (votacao?.filme != null) {
+                    choosedMovie = votacao.filme
+                    onAdapterClick(choosedMovie!!)
+                }
+            }
+        }
+    }
+
     fun loadData(){
         lifecycleScope.launch {
             try {
@@ -97,7 +109,7 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
     fun comeback(view: View){
         finish()
     }
-    fun sendVote(){
+    fun sendVoteMovie(view: View){
         lifecycleScope.launch(Dispatchers.Main) {
             if (choosedMovie == null) {
                 Toast.makeText(this@ChooseMovie, "Selecione um Filme Antes", Toast.LENGTH_SHORT).show()
@@ -112,6 +124,7 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
                     )
                 )
             }
+            this@ChooseMovie.finish()
         }
     }
 

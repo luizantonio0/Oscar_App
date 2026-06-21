@@ -128,7 +128,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ivSelectionThumbnail" android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" android:onClick="sendVoteMovie"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

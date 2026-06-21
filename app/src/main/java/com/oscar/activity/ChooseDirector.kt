@@ -47,6 +47,18 @@ class ChooseDirector : AppCompatActivity() {
 
     }
 
+    fun loadVotacao() {
+        lifecycleScope.launch (Dispatchers.Main){
+            withContext(Dispatchers.IO){
+                val votacao = databaseHelper.findVotacao()
+                if (votacao?.diretor != null) {
+                    binding.cdSelectedName.text = votacao.diretor?.nome
+                    choosedDirector = votacao.diretor
+                }
+            }
+        }
+    }
+
     fun loadData() {
         lifecycleScope.launch {
             try {
@@ -79,7 +91,7 @@ class ChooseDirector : AppCompatActivity() {
         binding.bdProgressbar.visibility = View.VISIBLE
     }
 
-    fun sendVote(){
+    fun sendVoteDirector(view: View){
         lifecycleScope.launch(Dispatchers.Main) {
             if (choosedDirector == null) {
                 Toast.makeText(this@ChooseDirector, "Selecione um Filme Antes", Toast.LENGTH_SHORT).show()
@@ -94,6 +106,7 @@ class ChooseDirector : AppCompatActivity() {
                     )
                 )
             }
+            this@ChooseDirector.finish()
         }
     }
     fun comeback(view: View){

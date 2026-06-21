@@ -2,13 +2,13 @@
 
 import io.realm.kotlin.types.RealmObject
 
-class Movie: RealmObject {
+class Movie(): RealmObject {
     var id: Long = 0L
     var nome: String = ""
     var genero:  String = ""
     var foto: String = ""
 
-    constructor(id: Long, nome: String, genero: String, foto: String)
+    constructor(id: Long, nome: String, genero: String, foto: String): this()
     {
         this.id = id
         this.nome = nome
