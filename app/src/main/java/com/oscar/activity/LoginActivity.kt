@@ -1,13 +1,10 @@
 ﻿package com.oscar.activity
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
-
 import com.oscar.R
 import com.oscar.config.ActivityUtil
 import com.oscar.config.ActivityUtil.Companion.passwordValid
@@ -18,12 +15,12 @@ import com.oscar.databinding.ActivityLoginBinding
 import com.oscar.repository.DatabaseHelper
 import com.oscar.service.ApiRequest
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private var api = ApiRequest()
+    private var api = ApiRequest(this)
 
 
     private var user: User? = null

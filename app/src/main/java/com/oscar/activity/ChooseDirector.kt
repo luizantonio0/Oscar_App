@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.oscar.config.ActivityUtil
 import com.oscar.data.model.Director
-import com.oscar.data.model.Movie
 import com.oscar.data.model.User
 import com.oscar.data.model.Votacao
 import com.oscar.databinding.ActivityChooseDirectorBinding
@@ -20,7 +19,7 @@ import kotlinx.coroutines.withContext
 
 class ChooseDirector : AppCompatActivity() {
     private lateinit var binding: ActivityChooseDirectorBinding
-    private val api = ApiRequest()
+    private val api = ApiRequest(this)
     private var choosedDirector: Director? = null
     private var user: User? = null
     private var databaseHelper = DatabaseHelper()
@@ -39,13 +38,15 @@ class ChooseDirector : AppCompatActivity() {
         loadVotacao()
 
         binding.cdRadioGroup.setOnCheckedChangeListener { group, checkedId ->
-            Toast.makeText(this, "Selected: ${checkedId}", Toast.LENGTH_SHORT).show()
             val name = group.findViewById<RadioButton>(checkedId).text
             binding.cdSelectedName.text = name
             val newDirector = Director(checkedId.toLong(), name.toString())
             choosedDirector = newDirector
         }
 
+        binding.cdBackVoting.setOnClickListener {
+            finish()
+        }
     }
 
     fun loadVotacao() {
@@ -95,7 +96,7 @@ class ChooseDirector : AppCompatActivity() {
     fun sendVoteDirector(view: View){
         lifecycleScope.launch(Dispatchers.Main) {
             if (choosedDirector == null) {
-                Toast.makeText(this@ChooseDirector, "Selecione um Filme Antes", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ChooseDirector, "Selecione um Diretor Antes", Toast.LENGTH_SHORT).show()
                 return@launch
             }
             withContext(Dispatchers.IO) {

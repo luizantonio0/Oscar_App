@@ -28,6 +28,8 @@
             android:id="@+id/ivLogoVoting"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
+            app:srcCompat="@drawable/oscar_academy_award"
+            app:tint="@color/primary_color"
             android:contentDescription="Logo do Oscar App"
             app:layout_constraintBottom_toBottomOf="@+id/ivBackVoting"
             app:layout_constraintEnd_toStartOf="@+id/ivProfileVoting"

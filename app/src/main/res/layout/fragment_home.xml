@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
                                                    android:background="#FFFFFF">
 
+    <ImageView
+            android:id="@+id/ivBackSummary"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:contentDescription="Ícone de seta para voltar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+            android:id="@+id/ivLogoSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/oscar_academy_award"
+            app:tint="@color/primary_color"
+            android:contentDescription="Logo do Oscar App"
+            app:layout_constraintBottom_toBottomOf="@+id/ivBackSummary"
+            app:layout_constraintEnd_toStartOf="@+id/ivProfileSummary"
+            app:layout_constraintStart_toEndOf="@+id/ivBackSummary"
+            app:layout_constraintTop_toTopOf="@+id/ivBackSummary" />
+
+    <ImageView
+            android:id="@+id/ivProfileSummary"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/outline_account_circle_24"
+            app:tint="@color/grey"
+            android:contentDescription="Ícone de perfil do usuário"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
             android:text="Button"
@@ -13,6 +43,5 @@
             android:layout_height="wrap_content" android:id="@+id/button"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            android:onClick="open"/>
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

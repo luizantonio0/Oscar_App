@@ -13,13 +13,13 @@
 
     <fragment
             android:id="@+id/navigation_dashboard"
-            android:name="com.oscar.activity.ui.dashboard.DashboardFragment"
+            android:name="com.oscar.activity.ui.voting.VotingFragment"
             android:label="@string/title_dashboard"
-            tools:layout="@layout/fragment_dashboard"/>
+            tools:layout="@layout/fragment_voting"/>
 
     <fragment
             android:id="@+id/navigation_notifications"
-            android:name="com.oscar.activity.ui.notifications.NotificationsFragment"
+            android:name="com.oscar.activity.ui.confirmation.ConfirmationVotingFragment"
             android:label="@string/title_notifications"
-            tools:layout="@layout/fragment_notifications"/>
+            tools:layout="@layout/fragment_confirmation"/>
 </navigation>

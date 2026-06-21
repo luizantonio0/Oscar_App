@@ -1,20 +1,18 @@
-﻿package com.oscar.activity.ui.dashboard
+﻿package com.oscar.activity.ui.voting
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.oscar.activity.ChooseDirector
 import com.oscar.activity.ChooseMovie
-import com.oscar.databinding.FragmentDashboardBinding
+import com.oscar.databinding.FragmentVotingBinding
 
-class DashboardFragment : Fragment() {
+class VotingFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentVotingBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,10 +23,8 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentVotingBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
 

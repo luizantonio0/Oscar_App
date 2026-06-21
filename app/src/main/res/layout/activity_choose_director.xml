@@ -29,6 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:contentDescription="Logo do Oscar App"
+            app:srcCompat="@drawable/oscar_academy_award"
+            app:tint="@color/primary_color"
             app:layout_constraintBottom_toBottomOf="@+id/cdBackVoting"
             app:layout_constraintEnd_toStartOf="@+id/cdProfileVoting"
             app:layout_constraintStart_toEndOf="@+id/cdBackVoting"

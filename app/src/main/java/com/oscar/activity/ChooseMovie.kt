@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oscar.R
 import com.oscar.config.ActivityUtil
@@ -25,7 +24,7 @@ import kotlinx.coroutines.withContext
 class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
     private lateinit var binding: ActivityChooseMovieBinding
     private lateinit var recyclerView: RecyclerView
-    private val api = ApiRequest()
+    private val api = ApiRequest(this)
     private var choosedMovie: Movie? = null
     private var user: User? = null
     private var databaseHelper = DatabaseHelper()

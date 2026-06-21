@@ -18,8 +18,8 @@
     <string name="icone_de_seta_para_voltar">Ícone de seta para voltar</string>
     <string name="best_picture">Melhor Filme</string>
     <string name="confirm_selection">CONFIRMAR</string>
-    <string name="final_review">Final Review</string>
-    <string name="award_categories">Award Categories</string>
+    <string name="final_review">Confirmação dos Votos</string>
+    <string name="award_categories">Categorias da Votação</string>
     <string name="vote_para_melhor_diretor">Vote Para Melhor Diretor</string>
     <string name="vote_para_melhor_filme">Vote Para Melhor Filme</string>
     <string name="your_selection">Selecionado</string>
