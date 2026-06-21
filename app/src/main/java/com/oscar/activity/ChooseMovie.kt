@@ -10,6 +10,7 @@ import com.oscar.R
 import com.oscar.config.ActivityUtil
 import com.oscar.config.MovieAdapter
 import com.oscar.config.OnGenericAdapterClickListener
+import com.oscar.data.model.Director
 import com.oscar.data.model.Movie
 import com.oscar.data.model.User
 import com.oscar.data.model.Votacao
@@ -20,6 +21,7 @@ import com.oscar.service.ImageDownloadService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
     private lateinit var binding: ActivityChooseMovieBinding
@@ -29,11 +31,12 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
     private var user: User? = null
     private var votacao: Votacao? = null
     private var databaseHelper = DatabaseHelper()
+    private var isFinished = true
 
     override fun onAdapterClick(t: Movie) {
         lifecycleScope.launch(Dispatchers.Main) {
 
-            if (votacao?.isFinished == true) {
+            if (isFinished) {
                 binding.btnConfirm.isEnabled = false
                 Toast.makeText(
                     this@ChooseMovie,
@@ -73,46 +76,98 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
 
         recyclerView = binding.picturesRecyclerView
         user = DatabaseHelper().findUser()
-        showLoading()
-        loadData()
-        loadVotacao()
+        lifecycleScope.launch(Dispatchers.Main) {
+            showLoading()
+
+            loadVotesInOrder()
+            loadData()
+
+            hideLoading()
+        }
     }
 
     override fun onResume(){
         super.onResume()
-        showLoading()
-        loadData()
-        loadVotacao()
-    }
+        lifecycleScope.launch(Dispatchers.Main) {
+            showLoading()
 
-    fun loadVotacao() {
-        lifecycleScope.launch (Dispatchers.Main){
-            withContext(Dispatchers.IO){
-                votacao = databaseHelper.findVotacao()
-                if (votacao?.filme != null) {
-                    choosedMovie = votacao?.filme
-                    onAdapterClick(choosedMovie!!)
-                }
-            }
+            loadVotesInOrder()
+            loadData()
+
+            hideLoading()
         }
     }
 
-    fun loadData(){
-        lifecycleScope.launch {
-            try {
-                val list = withContext(Dispatchers.IO) {
-                    api.getFilmes(user?.accessToken?: "")
+    private suspend fun loadVotesInOrder() {
+        try {
+            val votacaoConfirmada = withContext(Dispatchers.IO) {
+                val votacaoDto = api.getVotosConfirmados(user?.accessToken ?: "")
+
+                // Se encontrar Salva no banco de dados
+                val votacaoServidor = Votacao(
+                    1L,
+                    Movie(
+                        votacaoDto.filme.id,
+                        votacaoDto.filme.nome,
+                        votacaoDto.filme.genero,
+                        votacaoDto.filme.foto
+                    ),
+                    Director(
+                        votacaoDto.diretor.id,
+                        votacaoDto.diretor.nome
+                    )
+                ).apply {
+                    isFinished = true
                 }
-                recyclerView.adapter = MovieAdapter(list, this@ChooseMovie, this@ChooseMovie)
-                recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ChooseMovie)
-              }
-            catch (e: Exception) {
-                e.printStackTrace()
-            }
-            finally {
-                hideLoading()
+
+                databaseHelper.updateVotacao(votacaoServidor)
+
+                databaseHelper.findVotacao()
             }
 
+            votacao = votacaoConfirmada
+            isFinished = votacao?.isFinished == true
+
+            if (votacao?.filme != null) {
+                binding.tvSelectedName.text = votacao?.filme?.nome
+                choosedMovie = votacao?.filme
+            }
+
+            binding.btnConfirm.isEnabled = !isFinished
+            binding.picturesRecyclerView.isEnabled = !isFinished
+
+        } catch (e: HttpException) {
+            val votacaoLocal = withContext(Dispatchers.IO) {
+                databaseHelper.findVotacao()
+            }
+
+            votacao = votacaoLocal
+            isFinished = votacao?.isFinished == true
+
+            if (votacao?.filme != null) {
+                binding.tvSelectedName.text = votacao?.filme?.nome
+                choosedMovie = votacao?.filme
+            }
+
+            binding.btnConfirm.isEnabled = !isFinished
+            binding.picturesRecyclerView.isEnabled = !isFinished
+        }
+    }
+
+
+    suspend fun loadData(){
+        try {
+            val list = withContext(Dispatchers.IO) {
+                api.getFilmes(user?.accessToken?: "")
+            }
+            recyclerView.adapter = MovieAdapter(list, this@ChooseMovie, this@ChooseMovie)
+            recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ChooseMovie)
+          }
+        catch (e: Exception) {
+            e.printStackTrace()
+        }
+        finally {
+            hideLoading()
         }
     }
 

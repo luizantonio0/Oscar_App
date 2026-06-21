@@ -33,7 +33,8 @@ interface OscarApi{
     @POST("votos/confirmar")
     suspend fun confirmarVotos(@Body votos: ConfirmarVotoRequestDTO, @Header("Authorization") authorization: String): VotacaoResponseDTO
     @GET("votos/meu")
-    suspend fun getVotosConfirmados(): VotacaoDetalhadoResponseDTO
+    suspend fun getVotosConfirmados(
+        @Header("Authorization") authorization: String): VotacaoDetalhadoResponseDTO
     @GET("filmes")
     suspend fun getFilmes(
         @Header("Authorization") authorization: String
@@ -104,8 +105,8 @@ class ApiRequest(context: Context , var apiUrl: String = LocalProperties.getApiU
         }
     }
 
-    suspend fun getVotosConfirmados(): VotacaoDetalhadoResponseDTO {
-        return service.getVotosConfirmados()
+    suspend fun getVotosConfirmados(token: String): VotacaoDetalhadoResponseDTO {
+        return service.getVotosConfirmados("Bearer $token")
     }
 
     suspend fun getFilmes(token: String): List<Movie> {

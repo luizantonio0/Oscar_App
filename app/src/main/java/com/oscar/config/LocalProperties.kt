@@ -3,7 +3,7 @@
 class LocalProperties {
     companion object {
         fun getApiUrl(): String{
-            return "http://192.168.15.15:8080"
+            return "https://oscar-api-production-4735.up.railway.app"
         }
         fun getApiProfessorUrl(): String{
             return "http://200.236.3.97/"
