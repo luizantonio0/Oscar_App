@@ -2,6 +2,7 @@ package com.oscar.activity
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +13,7 @@ import com.oscar.config.MovieAdapter
 import com.oscar.config.OnGenericAdapterClickListener
 import com.oscar.data.model.Movie
 import com.oscar.data.model.User
+import com.oscar.data.model.Votacao
 import com.oscar.databinding.ActivityChooseMovieBinding
 import com.oscar.repository.DatabaseHelper
 import com.oscar.service.ApiRequest
@@ -26,6 +28,7 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
     private val api = ApiRequest()
     private var choosedMovie: Movie? = null
     private var user: User? = null
+    private var databaseHelper = DatabaseHelper()
 
     override fun onAdapterClick(t: Movie) {
         lifecycleScope.launch(Dispatchers.Main) {
@@ -95,7 +98,21 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
         finish()
     }
     fun sendVote(){
-
+        lifecycleScope.launch(Dispatchers.Main) {
+            if (choosedMovie == null) {
+                Toast.makeText(this@ChooseMovie, "Selecione um Filme Antes", Toast.LENGTH_SHORT).show()
+                return@launch
+            }
+            withContext(Dispatchers.IO) {
+                databaseHelper.updateVotacao(
+                    Votacao(
+                        1L,
+                        choosedMovie,
+                        null
+                    )
+                )
+            }
+        }
     }
 
 }

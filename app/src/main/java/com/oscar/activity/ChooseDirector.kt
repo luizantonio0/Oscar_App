@@ -10,6 +10,7 @@ import com.oscar.config.ActivityUtil
 import com.oscar.data.model.Director
 import com.oscar.data.model.Movie
 import com.oscar.data.model.User
+import com.oscar.data.model.Votacao
 import com.oscar.databinding.ActivityChooseDirectorBinding
 import com.oscar.repository.DatabaseHelper
 import com.oscar.service.ApiRequest
@@ -22,6 +23,8 @@ class ChooseDirector : AppCompatActivity() {
     private val api = ApiRequest()
     private var choosedDirector: Director? = null
     private var user: User? = null
+    private var databaseHelper = DatabaseHelper()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,8 +79,22 @@ class ChooseDirector : AppCompatActivity() {
         binding.bdProgressbar.visibility = View.VISIBLE
     }
 
-    fun sendVote(view: View){
-
+    fun sendVote(){
+        lifecycleScope.launch(Dispatchers.Main) {
+            if (choosedDirector == null) {
+                Toast.makeText(this@ChooseDirector, "Selecione um Filme Antes", Toast.LENGTH_SHORT).show()
+                return@launch
+            }
+            withContext(Dispatchers.IO) {
+                databaseHelper.updateVotacao(
+                    Votacao(
+                        1L,
+                        null,
+                        choosedDirector
+                    )
+                )
+            }
+        }
     }
     fun comeback(view: View){
         finish()

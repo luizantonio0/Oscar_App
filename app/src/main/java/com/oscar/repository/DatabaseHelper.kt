@@ -1,6 +1,7 @@
 ﻿package com.oscar.repository
 
 import com.oscar.data.model.User
+import com.oscar.data.model.Votacao
 import com.oscar.repository.DatabaseManager.realm
 import io.realm.kotlin.ext.query
 
@@ -34,6 +35,30 @@ class DatabaseHelper {
                 user.tokenVotacao = tokenVotacao ?: user.tokenVotacao
                 user.username = username ?: user.username
             }
+        }
+    }
+
+
+    fun findVotacao(): Votacao? {
+        return realm.query<Votacao>("id == $0", 1L).first().find()
+    }
+
+    suspend fun updateVotacao(votacao: Votacao) {
+        realm.write {
+            val votacaoToUpdate = query<Votacao>("id == $0", 1L).first().find()
+
+            if (votacaoToUpdate == null) {
+                val newVotacao = Votacao(
+                    1L,
+                    votacao.filme,
+                    votacao.diretor
+                )
+                copyToRealm(newVotacao)
+                return@write
+            }
+
+            votacaoToUpdate.diretor = votacao.diretor ?: votacaoToUpdate.diretor
+            votacaoToUpdate.filme = votacao.filme ?: votacaoToUpdate.filme
         }
     }
 
