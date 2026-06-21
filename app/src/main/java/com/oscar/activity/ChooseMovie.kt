@@ -11,7 +11,10 @@ import com.oscar.config.ActivityUtil
 import com.oscar.config.MovieAdapter
 import com.oscar.config.OnGenericAdapterClickListener
 import com.oscar.data.model.Movie
+import com.oscar.data.model.User
 import com.oscar.databinding.ActivityChooseMovieBinding
+import com.oscar.repository.DatabaseHelper
+import com.oscar.service.ApiRequest
 import com.oscar.service.ImageDownloadService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,16 +23,18 @@ import kotlinx.coroutines.withContext
 class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
     private lateinit var binding: ActivityChooseMovieBinding
     private lateinit var recyclerView: RecyclerView
+    private val api = ApiRequest()
     private var choosedMovie: Movie? = null
+    private var user: User? = null
 
     override fun onAdapterClick(t: Movie) {
-        binding.tvSelectedName.text = t.nome
+        lifecycleScope.launch(Dispatchers.Main) {
+            binding.tvSelectedName.text = t.nome
 
-        binding.ivSelectionThumbnail
+            binding.ivSelectionThumbnail
 
-        binding.ivCheck.setImageResource(R.drawable.check_circle_24dp_fill)
+            binding.ivCheck.setImageResource(R.drawable.check_circle_24dp_fill)
 
-        lifecycleScope.launch {
             // Tenta baixar a imagem via bitmap, em caso de erro carrega uma imagem padrão
             val bitmap = withContext(Dispatchers.IO) {
                 ImageDownloadService.downloadImageBitmap(t.foto)
@@ -42,6 +47,8 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
                     R.drawable.oscar_academy_award
                 )
             }
+
+            choosedMovie = t
         }
     }
 
@@ -51,24 +58,34 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
 
 
         recyclerView = binding.picturesRecyclerView
+        user = DatabaseHelper().findUser()
         loadData()
     }
 
     fun loadData(){
-        val list = listOf(
-            Movie(
-                0L,
-                "Titanic",
-                "Drama",
-                "https://m.media-amazon.com/images/I/91pZ7Rcp4iL._AC_UF894,1000_QL80_.jpg"),
-            Movie(
-                1L,
-                "Neymar",
-                "Documentario",
-                "https://m.media-amazon.com/images/M/MV5BNjFjMjY2NjMtMDQ1Yy00OTEwLWE1NjQtM2FlMjJiYzM3OTljXkEyXkFqcGc@._V1_.jpg"))
+        lifecycleScope.launch {
+            try {
+                showLoading()
+                val list = withContext(Dispatchers.IO) {
+                    api.getFilmes(user?.accessToken?: "")
+                }
+                recyclerView.adapter = MovieAdapter(list, this@ChooseMovie, this@ChooseMovie)
+                recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ChooseMovie)
+              }
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
+            finally {
+                hideLoading()
+            }
 
-        recyclerView.adapter = MovieAdapter(list, this, this)
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        }
+    }
+
+    private fun hideLoading() {
+    }
+
+    private fun showLoading() {
 
     }
 

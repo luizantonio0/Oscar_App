@@ -22,7 +22,7 @@ class ChooseDirector : AppCompatActivity() {
 
         val tempList = listOf( Director(0L, "Luiz"), Director(1L, "Antonio"))
 
-        tempList.forEachIndexed {  index, d ->
+        tempList.forEachIndexed { _, d ->
             val radioB = RadioButton(this).apply {
                 text = d.nome
                 id = d.id.toInt()

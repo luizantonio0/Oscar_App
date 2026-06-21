@@ -12,14 +12,18 @@ import com.oscar.R
 import com.oscar.config.ActivityUtil
 import com.oscar.config.ActivityUtil.Companion.passwordValid
 import com.oscar.config.ActivityUtil.Companion.usernameValid
+import com.oscar.data.dto.request.LoginRequestDTO
 import com.oscar.data.model.User
 import com.oscar.databinding.ActivityLoginBinding
 import com.oscar.repository.DatabaseHelper
+import com.oscar.service.ApiRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private var api = ApiRequest()
 
 
     private var user: User? = null
@@ -69,18 +73,25 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun login(view: View){
+        lifecycleScope.launch(Dispatchers.Main) {
+            val loginRequest = LoginRequestDTO(
+                binding.username.text.toString(),
+                binding.password.text.toString()
+            )
 
+            withContext(Dispatchers.IO) {
+                val loginResponse = api.login(loginRequest)
+                println("\n\n\n\n" + loginResponse + "\n\n\n\n")
 
-        val newUser = User().apply {
-            this.username = binding.username.text.toString()
+                val newUser = User().apply {
+                    this.username = binding.username.text.toString()
+                    this.tokenVotacao = loginResponse.tokenVotacao
+                    this.accessToken = loginResponse.token
+                }
+                DatabaseHelper().saveUser(newUser, newUser.accessToken, newUser.tokenVotacao)
+            }
         }
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            DatabaseHelper().saveUser(newUser, "", -1)
-        }
-
-
-        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
     }
 
 }

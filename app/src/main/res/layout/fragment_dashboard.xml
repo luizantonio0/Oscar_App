@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   android:layout_width="match_parent"
+                                                   xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
                                                    android:background="#FFFFFF">
 
@@ -29,10 +29,11 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="16dp"
+            app:srcCompat="@drawable/outline_account_circle_24"
+            app:tint="@color/grey"
             android:contentDescription="Ícone de perfil do usuário"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"/>
     <TextView
             android:id="@+id/tvFinalReview"
             android:layout_width="0dp"
@@ -45,43 +46,115 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBackSummary" />
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSummaryList"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/cvSubmitBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvFinalReview" />
 
-    <androidx.cardview.widget.CardView
-            android:id="@+id/cvSubmitBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:cardElevation="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+<!-- CARD-01 -->
+    <androidx.cardview.widget.CardView android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:layout_marginHorizontal="16dp"
+                                       android:layout_marginVertical="8dp"
+                                       app:cardCornerRadius="12dp"
+                                       app:cardElevation="2dp"
+
+                                       app:layout_constraintVertical_bias="0"
+                                       app:cardBackgroundColor="#FFFFFF"
+                                       android:id="@+id/cardViewDirector"
+                                       app:layout_constraintStart_toStartOf="parent"
+                                       app:layout_constraintEnd_toEndOf="parent"
+                                       app:layout_constraintTop_toBottomOf="@+id/cardViewMovie"
+                                       app:layout_constraintBottom_toBottomOf="parent">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:padding="12dp" tools:layout_editor_absoluteX="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/cvSubmitBar"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                android:id="@+id/cardViewDirector2"
+        >
 
-            <Button
-                    android:id="@+id/btnSubmitAll"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    android:backgroundTint="#000000"
-                    android:text="CONFIRMAR VOTOS"
-                    android:textColor="#FFFFFF"
+            <ImageView
+                    android:id="@+id/ivDirectorPoster"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/chair_24dp"
+                    app:tint="@color/primary_color"
+                    android:contentDescription="Foto ou pôster do filme candidato"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-            />
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                    android:id="@+id/tvDirectorName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivDirectorPoster"
+                    app:layout_constraintTop_toTopOf="@+id/ivDirectorPoster"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.078"
+                    android:text="@string/vote_para_melhor_diretor"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <!-- Card 02 -->
+    <androidx.cardview.widget.CardView android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:layout_marginHorizontal="16dp"
+                                       android:layout_marginVertical="8dp"
+                                       app:cardCornerRadius="12dp"
+                                       app:cardElevation="2dp"
+                                       app:cardBackgroundColor="#FFFFFF"
+                                       android:id="@+id/cardViewMovie"
+                                       app:layout_constraintStart_toStartOf="parent"
+                                       app:layout_constraintEnd_toEndOf="parent"
+                                       app:layout_constraintTop_toBottomOf="@+id/tvFinalReview">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp" tools:layout_editor_absoluteX="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/cvSubmitBar"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                app:layout_constraintVertical_bias="0.272" android:id="@+id/cardViewMovie2"
+        >
+
+            <ImageView
+                    android:id="@+id/ivMoviePoster"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/movie_24dp"
+                    app:tint="@color/primary_color"
+                    android:contentDescription="Foto ou pôster do filme candidato"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                    android:id="@+id/tvMovieName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivMoviePoster"
+                    app:layout_constraintTop_toTopOf="@+id/ivMoviePoster"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.078"
+                    android:text="@string/vote_para_melhor_filme"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
