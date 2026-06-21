@@ -64,7 +64,7 @@ class ChooseMovie : AppCompatActivity(), OnGenericAdapterClickListener<Movie> {
         user = DatabaseHelper().findUser()
         showLoading()
         loadData()
-
+        loadVotacao()
     }
 
     fun loadVotacao() {

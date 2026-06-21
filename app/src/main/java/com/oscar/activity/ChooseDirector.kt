@@ -36,6 +36,7 @@ class ChooseDirector : AppCompatActivity() {
 
         showLoading()
         loadData()
+        loadVotacao()
 
         binding.cdRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             Toast.makeText(this, "Selected: ${checkedId}", Toast.LENGTH_SHORT).show()
