@@ -22,6 +22,7 @@
     <string name="award_categories">Award Categories</string>
     <string name="vote_para_melhor_diretor">Vote Para Melhor Diretor</string>
     <string name="vote_para_melhor_filme">Vote Para Melhor Filme</string>
-    <string name="your_selection">YOUR SELECTION</string>
-    <string name="best_director">Best Director</string>
+    <string name="your_selection">Selecionado</string>
+    <string name="best_director">Melhor Diretor</string>
+    <string name="submit_all_votes">ENVIAR A VOTAÇÃO</string>
 </resources>

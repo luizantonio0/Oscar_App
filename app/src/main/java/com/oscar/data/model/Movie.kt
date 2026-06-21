@@ -1,6 +1,8 @@
 ﻿package com.oscar.data.model
 
-class Movie {
+import io.realm.kotlin.types.RealmObject
+
+class Movie: RealmObject {
     var id: Long = 0L
     var nome: String = ""
     var genero:  String = ""

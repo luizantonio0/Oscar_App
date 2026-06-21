@@ -78,27 +78,17 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp">
 
-            <TextView
-                    android:id="@+id/tvBallotSummary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ballot summary: 21 / 24 filled"
-                    app:layout_constraintBottom_toTopOf="@+id/btnSubmitAll"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
             <Button
                     android:id="@+id/btnSubmitAll"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
-                    android:layout_marginTop="16dp"
                     android:backgroundTint="#000000"
-                    android:text="SUBMIT ALL VOTES"
+                    android:text="@string/submit_all_votes"
                     android:textColor="#FFFFFF"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvBallotSummary" />
+            />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
