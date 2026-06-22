@@ -115,11 +115,16 @@ class ConfirmationVotingFragment : Fragment() {
             return
         }
 
+        if (binding.tokenInput.text.toString().isEmpty()) {
+            Toast.makeText(activity, "Insira seu Token da tela Inicial", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         lifecycleScope.launch (Dispatchers.Main){
-            var msg = VotacaoResponseDTO(false, "Erro inesperado, tente novamente mais tarde.")
+            var msg = VotacaoResponseDTO(false, "Token Inválido!")
             try {
                 withContext(Dispatchers.IO){
-                    msg = api.confirmarVotos(votacao!!, user?.tokenVotacao?: -1, user?.accessToken?: "")
+                    msg = api.confirmarVotos(votacao!!, binding.tokenInput.text.toString().toInt(), user?.accessToken?: "")
                     if (msg.sucesso) {
                         votacao!!.isFinished = true
                         databaseHelper.updateVotacao(votacao!!)

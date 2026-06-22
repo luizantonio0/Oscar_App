@@ -14,7 +14,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Votação</string>
-    <string name="title_notifications">Resultados</string>
+    <string name="title_notifications">Confirmar</string>
     <string name="icone_de_seta_para_voltar">Ícone de seta para voltar</string>
     <string name="best_picture">Melhor Filme</string>
     <string name="confirm_selection">CONFIRMAR</string>
